@@ -1,23 +1,31 @@
+import streamlit as st
 import qrcode
-import matplotlib.pyplot as plt
+import io
 
-# -------- QR 1: Image Link --------
-img1 = qrcode.make("https://images.pexels.com/photos/236047/pexels-photo-236047.jpeg")
-img1.save("image_qr.png")
+st.title("🔳 QR Code Generator")
 
-# -------- QR 2: Text --------
-img2 = qrcode.make("Hello Shravani! QR is working ✅")
-img2.save("text_qr.png")
+option = st.radio("Select Input Type:", ["Text", "Image URL"])
 
-# -------- Display --------
-plt.imshow(img1)
-plt.axis('off')
-plt.title("QR for Image Link")
-plt.show()
+# -------- TEXT INPUT --------
+if option == "Text":
+    text = st.text_area("Enter text")
 
-plt.imshow(img2)
-plt.axis('off')
-plt.title("QR for Text")
-plt.show()
+    if st.button("Generate QR"):
+        if text:
+            qr = qrcode.make(text)
+            buf = io.BytesIO()
+            qr.save(buf)
+            st.image(buf.getvalue(), caption="QR Code")
 
-print("QR codes generated successfully!")
+# -------- IMAGE URL INPUT --------
+elif option == "Image URL":
+    img_url = st.text_input("Enter Image URL")
+
+    if st.button("Generate QR"):
+        if img_url:
+            qr = qrcode.make(img_url)
+            buf = io.BytesIO()
+            qr.save(buf)
+            st.image(buf.getvalue(), caption="QR Code for Image URL")
+
+            st.success("Scan QR to open the image link!")
