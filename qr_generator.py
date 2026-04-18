@@ -7,7 +7,7 @@ img1.save("image_qr.png")
 
 # QR for text
 img2 = qrcode.make("Hello, you are learning QR code!")
-img2.save("text_qr.png")
+img2.save("AI_blog.png")
 
 # Display both
 plt.imshow(img1)
